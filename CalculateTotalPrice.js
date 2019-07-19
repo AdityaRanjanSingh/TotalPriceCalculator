@@ -1,56 +1,43 @@
 'use-strict';
-function calculatePrices(products) {
-    let totalAmount = 0;
-    let prices = getPrices(); // getting prices from JSON
-    let basketItems = filterItemsSeparetly(products, prices); // filtering items to return product and quantity
-    //Calculating prices
-    prices.forEach((product) => {
+class co {
 
-        let price = parseFloat(product.Price);
-        if (product.Code === "VOUCHER") {
-            totalAmount += getVoucherPriceAfterOffer(basketItems.VOUCHER, price)
-        } else if (product.Code === "TSHIRT") {
-            totalAmount += getTshirtPriceAfterOffer(basketItems.TSHIRT, price);
+    constructor(priceList) {
+        this.priceList = priceList;
+        this.vouchers = 0;
+        this.tShirts = 0;
+        this.total = 0;
+    }
+    scan(item) {
+        if (item === "VOUCHER") {
+            let product = this.priceList.find((a) => {
+                return a.Code === item
+            })
+            if (this.vouchers === 2) {
+                this.total += 0;
+            } else {
+                this.total += parseFloat(product.Price);
+            }
+            this.vouchers++;
+        } else if (item === "TSHIRT") {
+            let product = this.priceList.find((a) => {
+                return a.Code === item
+            })
+            if (this.tShirts > 2) {
+                this.total += parseFloat(product.Price) - 1;
+            } else if (this.tShirts === 2) {
+                this.total -= 2;
+                this.total += parseFloat(product.Price) - 1;
+            } else {
+                this.total += parseFloat(product.Price);
+            }
+            this.tShirts++;
         } else {
-            totalAmount += basketItems[product.Code] * price; // for others multiple price by quantity
+            let product = this.priceList.find((a) => {
+                return a.Code === item
+            })
+            this.total += parseFloat(product.Price);
         }
-    });
-    console.log(totalAmount)
-    return totalAmount;
+    }
 }
-// Separte function to calculate offer prices if offer changes later
-function getVoucherPriceAfterOffer(noOfItems, price) {
-    return price * (Math.floor(noOfItems / 3) * 2 + (noOfItems % 3));
-}
-// Separte function to calculate offer prices if offer changes later
-function getTshirtPriceAfterOffer(noOfItems, price) {
-    return noOfItems >= 3 ? (price - 1) * noOfItems : price * noOfItems;
-}
-// filtering items to return product and quantity
-function filterItemsSeparetly(selectedProducts, prices) {
-    let basketItems = {};
-    prices.forEach((product) => {
-        let quantity = selectedProducts.filter((selProd) => {
-            return selProd === product.Code;
-        });
-        basketItems[product.Code] = quantity.length;
-    })
-    return basketItems;
-}
-// function to return prices
-function getPrices() {
-    return [{
-        Code: "VOUCHER",
-        Name: "NoviCap Voucher",
-        Price: "5.00"
-    }, {
-        Code: "TSHIRT",
-        Name: "NoviCap T-Shirt",
-        Price: "20.00"
-    }, {
-        Code: "MUG",
-        Name: "NoviCap Coffee Mug",
-        Price: "7.50"
-    }]
-}
-export { calculatePrices }
+
+module.exports.co = co;

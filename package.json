@@ -1,0 +1,22 @@
+{
+  "name": "totalpricecalculator",
+  "version": "1.0.0",
+  "description": "",
+  "main": "CalculateTotalPrice.js",
+  "scripts": {
+    "test": "jasmine"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AdityaRanjanSingh/TotalPriceCalculator.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AdityaRanjanSingh/TotalPriceCalculator/issues"
+  },
+  "homepage": "https://github.com/AdityaRanjanSingh/TotalPriceCalculator#readme",
+  "devDependencies": {
+    "jasmine": "^3.4.0"
+  }
+}
